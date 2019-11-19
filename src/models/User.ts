@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 
 export interface IUser extends Document {
     username: string;
-    email: string;
+    telefono: string;
     password: string;
     encrypPassword(password: string): Promise<string>;
     validatePassword(password: string): Promise<boolean>;
@@ -16,7 +16,7 @@ const userSchema = new Schema({
         min: 4,
         lowercase: true
     },
-    email: {
+    telefono: {
         type: String,
         unique: true,
         required: true,

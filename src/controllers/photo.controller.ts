@@ -10,15 +10,23 @@ export async function getPhotos(req: Request, res: Response): Promise<Response> 
     return res.json(photos);
 };
 
+export async function getPhotosV(req: Request, res: Response): Promise<Response> {
+    const  v1  = req.body.vendedor;
+    const {vendedor} = req.params;
+    console.log('vendedor :',vendedor);
+    const photo = await Photo.find({vendedor: vendedor});
+    return res.json(photo);
+}
+
 
 export async function createPhoto(req: Request, res: Response): Promise<Response> {
-    const { title, description } = req.body;
-    console.log(req.body);
-    const newPhoto = { title, description, imagePath: req.file.path };
+    const { transaccion, precio, sector, metros, caracteristicas, vendedor } = req.body;
+   // console.log(req.body);
+    const newPhoto = { transaccion, precio, sector, metros, caracteristicas, vendedor, imagePath: req.file.path };
     const photo = new Photo(newPhoto);
     await photo.save();
     return res.json({
-        message: 'Photo Saved Successfully',
+        message: 'El proyecto fue savado existosamente',
         
     });
 };
@@ -47,6 +55,8 @@ export async function getPhoto(req: Request, res: Response): Promise<Response> {
     return res.json(photo);
 }
 
+
+
 export async function deletePhoto(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const photo = await Photo.findByIdAndRemove(id) as IPhoto;
@@ -58,13 +68,16 @@ export async function deletePhoto(req: Request, res: Response): Promise<Response
 
 export async function updatePhoto(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { title, description } = req.body;
+    const {  transaccion, precio, sector, metros, caracteristicas } = req.body;
     const updatedPhoto = await Photo.findByIdAndUpdate(id, {
-        title,
-        description
+            transaccion, 
+            precio, 
+            sector, 
+            metros, 
+            caracteristicas
     });
     return res.json({
-        message: 'Successfully updated',
+        message: 'Información actualizada',
         updatedPhoto
     });
 }

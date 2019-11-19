@@ -26,9 +26,9 @@ exports.getPhotos = getPhotos;
 ;
 function createPhoto(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { title, description } = req.body;
+        const { venta, precio, sector, metros, caracteristicas, vendedor } = req.body;
         console.log(req.body);
-        const newPhoto = { title, description, imagePath: req.file.path };
+        const newPhoto = { venta, precio, sector, metros, caracteristicas, vendedor, imagePath: req.file.path };
         const photo = new Photo_1.default(newPhoto);
         yield photo.save();
         return res.json({
@@ -78,10 +78,14 @@ exports.deletePhoto = deletePhoto;
 function updatePhoto(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { id } = req.params;
-        const { title, description } = req.body;
+        const { venta, precio, sector, metros, caracteristicas, vendedor } = req.body;
         const updatedPhoto = yield Photo_1.default.findByIdAndUpdate(id, {
-            title,
-            description
+                venta, 
+                precio, 
+                sector, 
+                metros, 
+                caracteristicas, 
+                vendedor
         });
         return res.json({
             message: 'Successfully updated',

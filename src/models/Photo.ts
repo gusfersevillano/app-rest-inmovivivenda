@@ -1,15 +1,23 @@
 import { Schema, model, Document } from 'mongoose'
 
 const schema = new Schema({
-    title: String,
-    description: String,
+    transaccion: String,
+    precio: Number,
+    sector: String,
+    metros: Number,
+    caracteristicas: String,
+    vendedor: String,
     imagePath: String
 });
 
 export interface IPhoto extends Document {
-    title: string;
-    description: string;
-    imagePath: string;
+    transaccion: string;
+    precio: number;
+    sector: string;
+    metros: number;
+    caracteristicas: string;
+    vendedor: string;
+    imagePath: string
 }
 
 export default model<IPhoto>('Photo', schema);
