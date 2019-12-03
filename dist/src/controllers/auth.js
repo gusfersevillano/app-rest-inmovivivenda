@@ -21,14 +21,14 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //const { username, email, password } = req.body    ;
     //if (error) return res.status(400).json(error.message);
     // Email Validation
-    const emailExists = yield User_1.default.findOne({ email: req.body.email });
-    if (emailExists)
-        return res.status(400).json('Email already exists');
+    const telefonoExists = yield User_1.default.findOne({ telefono: req.body.telefono });
+    if (telefonoExists)
+        return res.status(400).json('este teléfono no existe');
     // Saving a new User
     try {
         const newUser = new User_1.default({
             username: req.body.username,
-            email: req.body.email,
+            telefono: req.body.telefono,
             password: req.body.password
         });
         newUser.password = yield newUser.encrypPassword(newUser.password);
@@ -47,9 +47,9 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //const { error } = signinValidation(req.body);
     //if (error) return res.status(400).json(error.message);
-    const user = yield User_1.default.findOne({ email: req.body.email });
+    const user = yield User_1.default.findOne({ telefono: req.body.telefono });
     if (!user)
-        return res.status(400).json('email o contraseña invalidos');
+        return res.status(400).json('teléfono o contraseña invalidos');
     const correctPassword = yield user.validatePassword(req.body.password);
     if (!correctPassword)
         return res.status(400).json('contraseña invalida');
@@ -57,11 +57,17 @@ exports.signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.TOKEN_SECRET || 'tokentess', {
         expiresIn: 60 * 60 * 24
     });
+    // res.json(user);
     res.header('auth-token', token).json(user);
+});
+exports.datoUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body.idv);
+    const user = yield User_1.default.findOne({ _id: req.body.idv });
+    res.json(user);
 });
 exports.profile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //console.log(req.header('auth-token'));
-    res.send('profec');
+    //res.send('profec');
     const _id = '5dad12f42d47cc12c4d09263';
     //const _ids= req.body.emal;
     //console.log(req.body.email);

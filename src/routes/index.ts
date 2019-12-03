@@ -13,7 +13,7 @@ router.route('/photos')
     .post(upload.single('image'), createPhoto);
 
 router.route('/photosV:vendedor')
-    .get( getPhotosV)
+    .post( getPhotosV)//get ojo estoy probando ojala no la cague 
     .post(upload.single('image'), createPhoto);
 
 router.route('/photos/:id')
@@ -21,9 +21,8 @@ router.route('/photos/:id')
     .delete( deletePhoto)
     .put(updatePhoto);
 
-router.route('/datos/:idv')
-    .get(datoUsuario);
-
+router.route('/datos:idv')
+    .post(datoUsuario);
 
  
  router.route('/signin')

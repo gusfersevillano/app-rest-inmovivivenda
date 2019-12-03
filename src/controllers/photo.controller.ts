@@ -11,12 +11,101 @@ export async function getPhotos(req: Request, res: Response): Promise<Response> 
 };
 
 export async function getPhotosV(req: Request, res: Response): Promise<Response> {
-    const  v1  = req.body.vendedor;
+    
     const {vendedor} = req.params;
-    console.log('vendedor :',vendedor);
-    const photo = await Photo.find({vendedor: vendedor});
-    return res.json(photo);
-}
+    const  transaccion = req.body.transaccion;
+    const  sector = req.body.sector;
+    const  precio = req.body.precio;
+    var pi =0;
+    var pf = 9999999;
+   
+            if (Number(precio) == 1 ){
+                 var pi = 0;
+                 var pf = 100;
+
+            }else if (precio == 2){
+                 var pi = 100;
+                 var pf = 300;
+            }else if (precio == 3){
+                 var pi = 300;
+                 var pf = 500;
+             }else if (precio == 4){
+                 var pi = 500;
+                 var pf = 1000;
+
+            }else if (precio == 5){
+                 var pi = 1000;
+                 var pf = 5000;
+            }else if (precio == 6){
+                 var pi = 5000;
+                 var pf = 50000;
+             }else if (precio == 7){
+                 var pi = 75000;
+                 var pf = 100000;
+            }else if (precio == 8){
+                 var pi = 100000;
+                 var pf = 150000;
+            }else if (precio == 9){
+                 var pi = 150000;
+                 var pf = 300000; 
+            }else if (precio == 10){
+                 var pi = 300000;
+                 var pf = 30000000;                      
+                                   
+             } else {
+
+                var pi = 0;
+                var  pf = 100000000;
+              
+                     }
+           // console.log(vendedor);
+           // console.log(transaccion);
+           // console.log(precio);
+           // console.log(sector);
+           // console.log('pi :',pi);
+           // console.log('pf :',pf);
+            
+            //const photo = await Photo.find({vendedor: vendedor});
+            //return res.json(photo);
+
+            if(!transaccion && !precio && !sector) {    
+                const photo = await Photo.find({vendedor: vendedor});
+                return res.json(photo);
+            }
+            else if (!sector && !precio ){
+                const photo = await Photo.find({vendedor: vendedor, transaccion: transaccion});
+                return res.json(photo);    
+            }
+            else if (!transaccion && !precio ){
+                const photo = await Photo.find({vendedor: vendedor, sector: sector});
+                return res.json(photo);    
+            }
+            else if (!transaccion && !sector ){
+                const photo = await Photo.find({vendedor: vendedor, precio: {$gte:pi, $lte:pf}});
+                return res.json(photo);    
+            }
+
+            else if (!transaccion ){
+                const photo = await Photo.find({vendedor: vendedor, sector: sector, precio: {$gte:pi, $lte:pf} });
+                return res.json(photo);  
+            }
+            else if (!sector){
+                const photo = await Photo.find({vendedor: vendedor, transaccion: transaccion, precio: {$gte:pi, $lte:pf} });
+                return res.json(photo);  
+            }
+            else if (!precio){
+                const photo = await Photo.find({vendedor: vendedor, transaccion: transaccion,  sector: sector});
+                return res.json(photo);  
+
+            } else {
+                const photo = await Photo.find({vendedor: vendedor, sector: sector, precio: {$gte:pi, $lte:pf}, transaccion: transaccion});
+                return res.json(photo);
+            }
+
+             
+
+
+        }
 
 
 export async function createPhoto(req: Request, res: Response): Promise<Response> {

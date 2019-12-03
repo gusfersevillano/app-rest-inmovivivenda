@@ -22,7 +22,7 @@ const userSchema = new mongoose_1.Schema({
         min: 4,
         lowercase: true
     },
-    email: {
+    telefono: {
         type: String,
         unique: true,
         required: true,

@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const schema = new mongoose_1.Schema({
-    venta: String,
+    transaccion: String,
     precio: Number,
     sector: String,
     metros: Number,
-    caracteristicas: Number,
+    caracteristicas: String,
     vendedor: String,
     imagePath: String
 });
