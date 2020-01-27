@@ -2,6 +2,7 @@ import { Schema, model, Document } from 'mongoose'
 
 const schema = new Schema({
     transaccion: String,
+    tipo: String,
     precio: Number,
     sector: String,
     metros: Number,
@@ -12,6 +13,7 @@ const schema = new Schema({
 
 export interface IPhoto extends Document {
     transaccion: string;
+    tipo: string;
     precio: number;
     sector: string;
     metros: number;

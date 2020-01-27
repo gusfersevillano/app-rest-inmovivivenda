@@ -14,14 +14,14 @@ router.route('/photos')
     .get(photo_controller_1.getPhotos)
     .post(multer_1.default.single('image'), photo_controller_1.createPhoto);
 router.route('/photosV:vendedor')
-    .get(photo_controller_1.getPhotosV)
+    .post(photo_controller_1.getPhotosV) //get ojo estoy probando ojala no la cague 
     .post(multer_1.default.single('image'), photo_controller_1.createPhoto);
 router.route('/photos/:id')
     .get(photo_controller_1.getPhoto)
     .delete(photo_controller_1.deletePhoto)
     .put(photo_controller_1.updatePhoto);
-router.route('/datos/:idv')
-    .get(auth_1.datoUsuario);
+router.route('/datos:idv')
+    .post(auth_1.datoUsuario);
 router.route('/signin')
     .post(auth_1.signin);
 router.route('/signup')

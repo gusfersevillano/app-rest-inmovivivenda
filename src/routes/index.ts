@@ -2,7 +2,7 @@ import { Router } from 'express'
 const router = Router();
 
 import upload from '../libs/multer'
-import { getPhotos, getPhotosV, createPhoto, deletePhoto, getPhoto, updatePhoto} from '../controllers/photo.controller'
+import { getPhotos, getPhotosV, getPhotosVC, createPhoto, deletePhoto, getPhoto, updatePhoto} from '../controllers/photo.controller'
 import { signup, signin, profile, datoUsuario} from '../controllers/auth';
 import { TokenValidation} from '../libs/verifyToken';
 
@@ -15,6 +15,13 @@ router.route('/photos')
 router.route('/photosV:vendedor')
     .post( getPhotosV)//get ojo estoy probando ojala no la cague 
     .post(upload.single('image'), createPhoto);
+
+router.route('/photosC')
+    .post( getPhotosVC)//get ojo estoy probando ojala no la cague 
+
+//router.route('/photosC')
+//    .post( getPhotosV)//get ojo estoy probando ojala no la cague 
+//    .post(upload.single('image'), createPhoto);
 
 router.route('/photos/:id')
     .get( getPhoto)
