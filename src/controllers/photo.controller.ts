@@ -362,14 +362,17 @@ export async function deletePhoto(req: Request, res: Response): Promise<Response
 
 export async function updatePhoto(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const {  transaccion, tipo, precio, sector, metros, caracteristicas } = req.body;
+    //console.log (id);
+    const {transaccion, tipo, precio, sector, metros, caracteristicas, vendedor } = req.body;
+    //console.log(req.body);
     const updatedPhoto = await Photo.findByIdAndUpdate(id, {
             transaccion,
             tipo, 
             precio, 
             sector, 
             metros, 
-            caracteristicas
+            caracteristicas,
+            vendedor
     });
     return res.json({
         message: 'Información actualizada',
