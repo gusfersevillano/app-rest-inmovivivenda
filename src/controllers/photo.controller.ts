@@ -164,67 +164,75 @@ export async function getPhotosV(req: Request, res: Response): Promise<Response>
 export async function getPhotosVC(req: Request, res: Response): Promise<Response> {
     // Se busca en todos los gestores inmoviviliarios
     //console.log(req.body);
-    const  transaccion = req.body.transaccion;
+    const  transaccion1 = req.body.transaccion1;
+    const  transaccion2 = req.body.transaccion2;
+    const  transaccion3 = req.body.transaccion3;
     const tipo = req.body.tipo;
     const sector = req.body.sector;
-    const precio = Number(req.body.precio);
+    var pi = req.body.pi;
+    var pf = req.body.pf;
+
+    var precio = "all";
+
+
+    var trin= "$in";
+    var tiin= "$in";
+    var sein= "$in";
     
-    var pi =0;
-    var pf = 9999999;
-   
-            if (precio == 1 ){
-                 var pi = 0;
-                 var pf = 100;
+           if(!transaccion1 && !transaccion2 && !transaccion3) {    
+               var trin= "$nin";
+            }
 
-            }else if (precio == 2){
-                 var pi = 100;
-                 var pf = 300;
-            }else if (precio == 3){
-                 var pi = 300;
-                 var pf = 500;
-             }else if (precio == 4){
-                 var pi = 500;
-                 var pf = 1000;
+            if(!tipo) {    
+               var tiin= "$nin";
+            }
 
-            }else if (precio == 5){
-                 var pi = 1000;
-                 var pf = 5000;
-            }else if (precio == 6){
-                 var pi = 5000;
-                 var pf = 50000;
-             }else if (precio == 7){
-                 var pi = 75000;
-                 var pf = 100000;
-            }else if (precio == 8){
-                 var pi = 100000;
-                 var pf = 150000;
-            }else if (precio == 9){
-                 var pi = 150000;
-                 var pf = 300000; 
-            }else if (precio == 10){
-                 var pi = 300000;
-                 var pf = 30000000;                      
-                                   
-             } else {
+            if(!sector) {    
+               var sein= "$nin";
+            }
+    
+          
+            if(!pi) {    
+               pi= 1;
+            }
 
-                var pi = 0;
-                var  pf = 100000001;
-              
-                     }
+            if(!pf) {    
+               pf= 99999999;
+            }
+
+    var p1={transaccion:{[trin]: [transaccion1, transaccion2, transaccion3],  }, tipo :{[tiin]: [tipo]}, sector: {[sein]: [sector]}, precio: {$gte:pi, $lte:pf}};
 
            //console.log(transaccion);
            //console.log(tipo);
            //console.log(sector);
            //console.log(precio);
            //console.log(req.body.precio);
+           //console.log(trin);
+          // console.log(p1);
             
-           //console.log('pi :',pi);
-           //console.log('pf :',pf);
+          // console.log('pi :',pi);
+          // console.log('pf :',pf);
             
             //const photo = await Photo.find({});
             //return res.json(photo);
 
-             if(!transaccion && !precio && !sector && !tipo) {    
+
+          if(!transaccion1 && !transaccion2 && !transaccion3 && !pi && !pf && !sector && !tipo) {    
+                const photo = await Photo.find({});
+                return res.json(photo);
+            }
+          else if (!sector && !precio && !tipo){
+                const photo = await Photo.find({transaccion: transaccion1});
+                return res.json(photo);    
+            }
+          else {
+                const photo = await Photo.find(p1);
+                return res.json(photo);
+            }
+
+
+/*
+             if(!transaccion && ! precio && !sector && !tipo) {    
                 const photo = await Photo.find({});
                 return res.json(photo);
             }
@@ -309,7 +317,7 @@ export async function getPhotosVC(req: Request, res: Response): Promise<Response
                 const photo = await Photo.find({transaccion: transaccion, tipo :tipo, sector: sector, precio: {$gte:pi, $lte:pf}});
                 return res.json(photo);
             }
-
+*/
 
         }
 
